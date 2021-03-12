@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const period = urlParams.has('period') ? urlParams.get('period') : null;
   const earthquakes = await fetchEarthquakes(type, period);
 
-
   // Fjarlægjum loading skilaboð eftir að við höfum sótt gögn
   const loading = document.querySelector('.loading');
   const parent = loading.parentNode;
@@ -69,6 +68,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     h1.innerHTML = `${queryType[0].innerHTML}, ${queryType[0].name.toLowerCase()}`;
     cache.innerHTML = `${cachedEarthquakes} Fyrirspurn tók ${elapsedTime} sek.`;
     ul.appendChild(li);
-
   });
 });
