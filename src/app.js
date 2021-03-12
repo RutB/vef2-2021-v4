@@ -16,9 +16,27 @@ const app = express();
 const path = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.static(join(path, '../public')));
+app.use(express.static(join(path, '../node_modules/leaflet/dist')));
+app.set('view engine', 'ejs');
+app.set('views', join(path, '../view'));
 
-// TODO setja upp proxy þjónustu
-// TODO birta index.html skjal
+app.use((_req, res, next) => {
+  res.header(
+    'Access-Control-Allow-Origin', '*',
+  );
+  res.header(
+    'Access-Control-Allow-Methods', 'GET',
+  );
+  next();
+});
+
+app.get('/', (_req, res) => {
+  res.sendFile('index.html', {
+    root: join(path, '..'),
+  });
+});
+
+app.use(proxyRouter);
 
 /**
  * Middleware sem sér um 404 villur.
@@ -28,7 +46,7 @@ app.use(express.static(join(path, '../public')));
  * @param {function} next Næsta middleware
  */
 // eslint-disable-next-line no-unused-vars
-function notFoundHandler(req, res, next) {
+function notFoundHandler(_req, res, _next) {
   const title = 'Síða fannst ekki';
   res.status(404).render('error', { title });
 }
@@ -42,7 +60,7 @@ function notFoundHandler(req, res, next) {
  * @param {function} next Næsta middleware
  */
 // eslint-disable-next-line no-unused-vars
-function errorHandler(err, req, res, next) {
+function errorHandler(err, _req, res, _next) {
   console.error(err);
   const title = 'Villa kom upp';
   res.status(500).render('error', { title });

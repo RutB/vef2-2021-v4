@@ -3,13 +3,13 @@ import { el, element, formatDate } from './lib/utils';
 import { init, createPopup } from './lib/map';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // TODO
-  // Bæta við virkni til að sækja úr lista
-  // Nota proxy
-  // Hreinsa header og upplýsingar þegar ný gögn eru sótt
-  // Sterkur leikur að refactora úr virkni fyrir event handler í sér fall
+  const queryString = window.location.search;
+  const queryType = document.querySelectorAll(`a[href='/${window.location.search}'`);
+  const urlParams = new URLSearchParams(queryString);
+  const type = urlParams.has('type') ? urlParams.get('type') : null;
+  const period = urlParams.has('period') ? urlParams.get('period') : null;
+  const earthquakes = await fetchEarthquakes(type, period);
 
-  const earthquakes = await fetchEarthquakes();
 
   // Fjarlægjum loading skilaboð eftir að við höfum sótt gögn
   const loading = document.querySelector('.loading');
@@ -23,11 +23,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const ul = document.querySelector('.earthquakes');
+  const h1 = document.querySelector('.earthquakes-title');
+  const cache = document.querySelector('.cache');
   const map = document.querySelector('.map');
+  const elapsedTime = earthquakes.info.time;
+
+  const cachedEarthquakes = earthquakes.info.cached ? 'Gögn eru í cache.' : 'Gögn eru ekki í cache.';
 
   init(map);
 
-  earthquakes.forEach((quake) => {
+  earthquakes.data.features.forEach((quake) => {
     const {
       title, mag, time, url,
     } = quake.properties;
@@ -61,6 +66,9 @@ document.addEventListener('DOMContentLoaded', async () => {
           link)),
     );
 
+    h1.innerHTML = `${queryType[0].innerHTML}, ${queryType[0].name.toLowerCase()}`;
+    cache.innerHTML = `${cachedEarthquakes} Fyrirspurn tók ${elapsedTime} sek.`;
     ul.appendChild(li);
+
   });
 });
