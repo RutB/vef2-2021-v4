@@ -31,6 +31,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   init(map);
 
+  if (earthquakes.data.features.length <= 0) {
+     h1.innerHTML= 'Engir jarðskjálftar fundnir'
+  };
+
   earthquakes.data.features.forEach((quake) => {
     const {
       title, mag, time, url,
