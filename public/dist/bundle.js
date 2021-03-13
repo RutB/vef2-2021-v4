@@ -794,7 +794,6 @@
   }
   });
 
-  //const API_URL = 'http://localhost:3001';
   function fetchEarthquakes(_x, _x2) {
     return _fetchEarthquakes.apply(this, arguments);
   }
@@ -17411,8 +17410,8 @@
             queryString = window.location.search;
             queryType = document.querySelectorAll("a[href='/".concat(window.location.search, "'"));
             urlParams = new URLSearchParams(queryString);
-            type = urlParams.has('type') ? urlParams.get('type') : null;
-            period = urlParams.has('period') ? urlParams.get('period') : null;
+            type = urlParams.has('type') ? urlParams.get('type') : 'significant';
+            period = urlParams.has('period') ? urlParams.get('period') : 'hour';
             _context.next = 7;
             return fetchEarthquakes(type, period);
 
@@ -17434,6 +17433,10 @@
             elapsedTime = earthquakes.info.time;
             cachedEarthquakes = earthquakes.info.cached ? 'Gögn eru í cache.' : 'Gögn eru ekki í cache.';
             init(map);
+
+            if (earthquakes.data.features.length <= 0) {
+              h1.innerHTML = 'Engir jarðskjálftar fundnir';
+            }
             earthquakes.data.features.forEach(function (quake) {
               var _quake$properties = quake.properties,
                   title = _quake$properties.title,
@@ -17462,7 +17465,7 @@
               ul.appendChild(li);
             });
 
-          case 20:
+          case 22:
           case "end":
             return _context.stop();
         }
