@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const queryString = window.location.search;
   const queryType = document.querySelectorAll(`a[href='/${window.location.search}'`);
   const urlParams = new URLSearchParams(queryString);
-  const type = urlParams.has('type') ? urlParams.get('type') : null;
-  const period = urlParams.has('period') ? urlParams.get('period') : null;
+  const type = urlParams.has('type') ? urlParams.get('type') : 'significant';
+  const period = urlParams.has('period') ? urlParams.get('period') : 'hour';
   const earthquakes = await fetchEarthquakes(type, period);
 
   // Fjarlægjum loading skilaboð eftir að við höfum sótt gögn

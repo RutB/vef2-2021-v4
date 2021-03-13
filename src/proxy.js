@@ -14,8 +14,10 @@ router.get('/proxy', async (req, res) => {
   let timeSince;
   let timeEnd;
 
+  timeSince = timerStart();
+  /*
   try {
-    timeSince = timerStart();
+
     result = await getResponse(key);
   } catch (e) {
     console.error('error getting from cache', e);
@@ -33,11 +35,10 @@ router.get('/proxy', async (req, res) => {
     };
     res.json(data);
     return;
-  }
+  }*/
 
   // not in cache so getting the data and setting it to cache
   try {
-    timeSince = timerStart();
     result = await fetch(URL);
   } catch (e) {
     console.error('Villa við að sækja gögn frá vefþjónustu', e);
