@@ -1,4 +1,4 @@
-import redis from 'redis';
+/*import redis from 'redis';
 import util from 'util';
 
 const redisOptions = {
@@ -22,3 +22,4 @@ export async function getResponse(key) {
 export async function setResponse(key, data) {
   await asyncSet(key, data);
 }
+*/
