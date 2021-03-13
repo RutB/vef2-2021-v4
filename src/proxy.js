@@ -1,7 +1,7 @@
 import express from 'express';
 import fetch from 'node-fetch';
 
-import { getResponse, setResponse } from './cache.js';
+//import { getResponse, setResponse } from './cache.js';
 import { timerStart, timerEnd } from './time.js';
 
 export const router = express.Router();
@@ -53,7 +53,7 @@ router.get('/proxy', async (req, res) => {
   }
 
   const resultText = await result.text();
-  await setResponse(key, resultText);
+  //await setResponse(key, resultText);
   timeEnd = timerEnd(timeSince);
 
   const data = {
